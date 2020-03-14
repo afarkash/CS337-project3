@@ -2,12 +2,9 @@
 
 Group Members:
 
-Allan Farkash (alf3687)
-
-Nathan Xu (nlx4813)
-
-Kevin Qiu (kyq6130)
-
+Allan Farkash (alf3687)  
+Nathan Xu (nlx4813)  
+Kevin Qiu (kyq6130)  
 
 Python 3.7
 
@@ -15,10 +12,10 @@ run pip install -r requirements.txt
 
 Part of our AllFoods.json (descriptions, cooking methods) and tools.py files take entries from a former project to save time on typing: (https://github.com/tylrodg/CS337-Recipes). Our AllFoods.json also takes inspiration from another project for lists of spices, meats, and vegetables: (https://github.com/dariusk/corpora/tree/master/data/foods), also to save time on typing.
 
-Pierce is an anagram of "recipe"
+Our chatbot is named Pierce. His name is an anagram of the word, "recipe"
 
 INSTRUCTIONS:
-To begin chatting with our chatbot, Pierce, run:
+To begin chatting with Pierce, run:
 >> python3 chatbot.py
 
 Upon activation, Pierce will ask for a recipe URL from allrecipes.com
