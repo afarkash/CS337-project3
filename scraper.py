@@ -25,6 +25,8 @@ class RecipeFetcher:
 		page_graph = BeautifulSoup(page_html.content, features="html.parser")
 		results['ingredients'] = [ingredient.text for ingredient in page_graph.find_all('span', {'itemprop':'recipeIngredient'})]
 		results['directions'] = [direction.text.strip() for direction in page_graph.find_all('span', {'class':'recipe-directions__list--item'}) if direction.text.strip()]
+		results['title'] = [title.text for title in page_graph.find_all('h1', {'itemprop':'name'})]
+		#<h1 id="recipe-main-content" class="recipe-summary__h1" itemprop="name">Hearty Meat Lasagna</h1>
 		results['primary_methods'] = []
 		results['secondary_methods'] = []
 		for j in range(len(results['directions'])):
