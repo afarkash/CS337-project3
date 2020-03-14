@@ -11,6 +11,8 @@ class Chatbot:
         directions = []
         got_recipe = True
         directions_dict = {}
+        current_step = 0
+        user_input = ''
 
 
     def get_url(self, url):
@@ -33,6 +35,24 @@ class Chatbot:
                 self.directions_dict[i] = self.directions[i]
                 print(str(i) + ". " + self.directions[i])
     
+    def next_step(self):
+        if self.current_step < len(directions_dict) - 1:
+            self.current_step +=1
+            print(self.directions_dict[self.current_step])
 
+    def prev_step(self):
+        if self.current_step > 0:
+            self.current_step -=1
+            print(self.directions_dict[self.current_step])
 
+    def answer_how(self):
+        query = self.user_input.replace(" ", "+")
+        print("I have a video reference for you: " + "https://www.youtube.com/results?search_query=" + query)
+
+    def answer_what(self):
+        query = self.user_input.replace(" ", "+")
+        print("I have a reference for you: " + "https://www.google.com/search?q=" + query)
+
+    
+       
         
