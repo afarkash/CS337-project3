@@ -1,14 +1,15 @@
-import transform_recipe
+from transform_recipe import RecipeTransformer
 import scraper
 
-class Chatbot:
-    def __init__(self):
-        self.transformer = transform_recipe.RecipeTransformer()
+class Chatbot(RecipeTransformer):
+    def __init__(self, recipe):
+        super().__init__()
+        #self.transformer = transform_recipe.RecipeTransformer()
         self.rf = scraper.RecipeFetcher()
         self.url = False
         self.title = ''
-        self.ingredients = []
-        self.directions = []
+        self.ingredients = self.original_recipe(recipe)['ingredients']
+        self.directions = self.original_recipe(recipe)['directions']
         self.got_recipe = False
         self.leave = False
         self.directions_dict = {}
@@ -87,39 +88,40 @@ class Chatbot:
                 self.get_url(self.user_input)
                 print("Great! Let's cook " + self.title[0] + ". You can ask me to see the ingredients or the directions, or you can transform the recipe.")
 
-            if("ingredients" in self.user_input):
+            elif("ingredients" in self.user_input):
                 print("Here you go:")
                 self.print_ingredients()
 
-            if("directions" in self.user_input):
+            elif("directions" in self.user_input):
                 print("Here you go:")
                 self.print_directions()
                 print("Would you like to go through them step-by-step?")
 
-            if("yes" in self.user_input):
+            elif("yes" in self.user_input):
                 self.curr_step()
                 print("Let me know if you want to see the previous or next step.")
 
-            if("previous" in self.user_input):
+            elif("previous" in self.user_input):
                 print("Here you go:")
                 self.prev_step()
 
-            if("next" in self.user_input):
+            elif("next" in self.user_input):
                 print("Here you go:")
                 self.next_step()
 
-            if("exit" in self.user_input or "quit" in self.user_input):
+            elif("exit" in self.user_input or "quit" in self.user_input):
                 self.exit()
 
-            if("how" in self.user_input):
+            elif("how" in self.user_input):
                 self.answer_how()
 
-            if("what" in self.user_input):
+            elif("what" in self.user_input):
                 self.answer_what()
 
-chatbot = Chatbot()
+            else:
+                print("I didn't understand that. I can get you ingredients and directions, and I can point you to resources that answer your 'how' and 'what' questions. Type 'exit' to leave the chat.")
+chatbot = Chatbot('meat lasagna')
 chatbot.run()
-
             
         
 

@@ -1,2 +1,6 @@
 my_venv
 *.pyc
+*.xml
+*.iml
+.idea/
+./__pycache__/
