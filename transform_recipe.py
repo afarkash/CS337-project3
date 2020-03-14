@@ -125,24 +125,24 @@ class RecipeTransformer:
                         break
         return arr
 
-    def transform_health(self, item, is_healthy):
-        rf = self.recipe_fetcher
-        recipe = rf.search_recipes(item)[0]
-        info = rf.scrape_recipe(recipe)
+    def transform_health(self, info, is_healthy):
+        #rf = self.recipe_fetcher
+        #recipe = rf.search_recipes(item)[0]
+        #info = rf.scrape_recipe(recipe)
 
         transformed_ingredients = self.transform(info['ingredients'], is_healthy)
         transformed_directions = self.transform(info['directions'], is_healthy)
 
-        self.recipe_fetcher.results['ingredients'] = transformed_ingredients
-        self.recipe_fetcher.results['directions'] = transformed_directions
-        return transformed_ingredients, transformed_directions
+        #self.recipe_fetcher.results['ingredients'] = transformed_ingredients
+        #self.recipe_fetcher.results['directions'] = transformed_directions
+        return {'ingredients': transformed_ingredients, 'directions': transformed_directions}
 
 
     # alternate function using foods.json
-    def transform_to_healthy2(self, item):
-        rf = self.recipe_fetcher
-        recipe = rf.search_recipes(item)[0]
-        info = rf.scrape_recipe(recipe)
+    def transform_to_healthy2(self, info):
+        #rf = self.recipe_fetcher
+        #recipe = rf.search_recipes(item)[0]
+        #info = rf.scrape_recipe(recipe)
 
         food_json = json.loads(open('foods.json').read())
 
@@ -164,10 +164,10 @@ class RecipeTransformer:
         self.recipe_fetcher.results = info
         return info
 
-    def transform_to_vegetarian(self, item):
-        rf = self.recipe_fetcher
-        recipe = rf.search_recipes(item)[0]
-        info = rf.scrape_recipe(recipe)
+    def transform_to_vegetarian(self, info):
+        #rf = self.recipe_fetcher
+        #recipe = rf.search_recipes(item)[0]
+        #info = rf.scrape_recipe(recipe)
 
         vegprot = self.idb.vegprot
         carnivore = self.idb.meat
@@ -194,12 +194,12 @@ class RecipeTransformer:
                         new_entry.remove(rm)
                     info['ingredients'][i] = " ".join(new_entry)
         self.recipe_fetcher.results = info
-        return info['ingredients'], info['directions']
+        return info
 
-    def transform_to_carnivore(self, item):
-        rf = self.recipe_fetcher
-        recipe = rf.search_recipes(item)[0]
-        info = rf.scrape_recipe(recipe)
+    def transform_to_carnivore(self, info):
+        #rf = self.recipe_fetcher
+        #recipe = rf.search_recipes(item)[0]
+        #info = rf.scrape_recipe(recipe)
         vegprot = self.idb.vegprot
         carnivore = self.idb.meat
         v2m = self.idb.v2m
@@ -218,14 +218,14 @@ class RecipeTransformer:
                     new_entry = [replacement if wd == element else wd for wd in new_entry]
                     info['ingredients'][i] = " ".join(new_entry)
         self.recipe_fetcher.results = info
-        return info['ingredients']
+        return info
 
-    def transform_method(self, item, method1, method2):
+    def transform_method(self, info, method1, method2):
         #from method1 to method2
         #supports bake, boil, broil, fry, grill, steam, pressure cook, stir-fry, stew, and roast
-        rf = self.recipe_fetcher
-        recipe = rf.search_recipes(item)[0]
-        info = rf.scrape_recipe(recipe)
+        #rf = self.recipe_fetcher
+        #recipe = rf.search_recipes(item)[0]
+        #info = rf.scrape_recipe(recipe)
 
         methods = self.idb.m2t
         tools = self.idb.t2m
@@ -259,7 +259,7 @@ class RecipeTransformer:
                     new_direction = [methods[method2] if wd == methods[method1] else wd for wd in new_direction]
                 info['directions'][j] = " ".join(new_direction)
         self.recipe_fetcher.results = info
-        return info['ingredients'], info['directions']
+        return info
 
 
     def get_np(self, text):
@@ -267,12 +267,12 @@ class RecipeTransformer:
         return tb.noun_phrases
 
 
-    def transform_to_cuisine(self, rec, cuisine):
+    def transform_to_cuisine(self, original, cuisine):
 
         measurements = ["ounce", "ounces", "cup", "cups", "quart", "quarts", "tablespoon", "tablespoons", "teaspoon", "teaspoons", "pinch", "dash", "gallon", "gallons", 'package', "packages",
 "oz", "qt", "tsp", "tbsp", "gal", "pound", "lb", "pounds", "lbs", "jars", "jar", "or", "to", "taste", ",", "for"]
 
-        original = self.original_recipe(rec)
+        #original = self.original_recipe(rec)
         orig_ingredients = original["ingredients"]
         orig_directions = original["directions"]
 
@@ -334,14 +334,14 @@ class RecipeTransformer:
                 if rep[0] in orig_directions[i]:
                     orig_directions[i] = (orig_directions[i].replace(rep[0], rep[1]))
 
-        final_list = [orig_ingredients, orig_directions]
-        return final_list
+        final_dict = {'ingredients': orig_ingredients, 'directions': orig_directions}
+        return final_dict
 
     # amt is the amount to modify quantity by (double = 2, half = 0.5, etc.)
-    def modify_quantity(self, item, amt):
-        rf = self.recipe_fetcher
-        recipe = rf.search_recipes(item)[0]
-        info = rf.scrape_recipe(recipe)
+    def modify_quantity(self, info, amt):
+        #rf = self.recipe_fetcher
+        #recipe = rf.search_recipes(item)[0]
+        #info = rf.scrape_recipe(recipe)
         modified_ingredients = []
         modified_directions = []
 
@@ -350,7 +350,7 @@ class RecipeTransformer:
         for ing in info['directions']:
             modified_directions.append(utils.scale_fractional_quantity(ing, amt))
 
-        return modified_ingredients, modified_directions
+        return {'ingredients': modified_ingredients, 'directions': modified_directions}
 
     def double_quantity(self, item, amt=2):
         return self.modify_quantity(item, amt)
