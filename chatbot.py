@@ -160,7 +160,7 @@ class Chatbot():
             elif("how" in self.user_input):
                 self.answer_how()
 
-            elif("what" in self.user_input):
+            elif("what" in self.user_input and "step" not in self.user_input):
                 self.answer_what()
 
             elif("transform" in self.user_input or "change" in self.user_input):
